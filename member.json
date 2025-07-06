@@ -1,0 +1,21 @@
+[
+  {
+    "id": "hanako",
+    "name": "佐藤 花子",
+    "bio": "人の気持ちに寄り添う言葉が得意です。ZINEやコラム執筆の経験あり。",
+    "tags": ["ライター", "ZINE", "優しい"],
+    "links": {
+      "portfolio": "https://example.com/portfolio-hanako",
+      "twitter": "https://twitter.com/hanako"
+    }
+  },
+  {
+    "id": "taro",
+    "name": "田中 太郎",
+    "bio": "イベント司会・ファシリテーションに自信あり。音声系も対応可能。",
+    "tags": ["司会", "ファシリテーター", "落ち着いている"],
+    "links": {
+      "portfolio": "https://example.com/portfolio-taro"
+    }
+  }
+]

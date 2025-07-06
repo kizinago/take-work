@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>メンバー詳細</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 1rem;
+      background: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 1.6rem;
+    }
+    .tag {
+      display: inline-block;
+      background: #eee;
+      padding: 0.3rem 0.6rem;
+      margin: 0.2rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+    .job-list {
+      margin-top: 2rem;
+    }
+    .job-card {
+      background: #fafafa;
+      border: 1px solid #ddd;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 6px;
+    }
+    .job-card h3 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="memberDetail">読み込み中...</div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const container = document.getElementById("memberDetail");
+
+    Promise.all([
+      fetch("members.json").then(res => res.json()),
+      fetch("work.json").then(res => res.json())
+    ])
+    .then(([members, works]) => {
+      const member = members.find(m => m.id === id);
+      if (!member) {
+        container.innerHTML = `<p>メンバーが見つかりません。</p>`;
+        return;
+      }
+
+      const relatedJobs = works.filter(w => w.memberId === member.id);
+
+      container.innerHTML = `
+        <h1>${member.name}</h1>
+        <p>${member.bio}</p>
+        <div>
+          ${member.tags.map(tag => `<span class="tag">${tag}</span>`).join(" ")}
+        </div>
+        <div class="job-list">
+          <h2>受けたい仕事</h2>
+          ${relatedJobs.length > 0 ? relatedJobs.map(job => `
+            <div class="job-card">
+              <h3><a href="work-detail.html?id=${job.id}">${job.job}</a></h3>
+              <p>${job.description}</p>
+              <p><strong>予算目安:</strong> ${job.budget}</p>
+            </div>
+          `).join("") : "<p>受けたい仕事はまだ登録されていません。</p>"}
+        </div>
+        <div style="margin-top: 2rem;"><a href="index.html">← 一覧に戻る</a></div>
+      `;
+    })
+    .catch(err => {
+      container.innerHTML = `<p>読み込みエラーが発生しました。</p><p>${err.message}</p>`;
+    });
+  </script>
+</body>
+</html>
