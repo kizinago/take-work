@@ -54,7 +54,7 @@
     const container = document.getElementById("memberDetail");
 
     Promise.all([
-      fetch("members.json").then(res => res.json()),
+      fetch("member.json").then(res => res.json()),
       fetch("work.json").then(res => res.json())
     ])
     .then(([members, works]) => {
