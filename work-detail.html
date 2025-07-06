@@ -32,48 +32,38 @@
   </style>
 </head>
 <body>
-  <div class="container" id="jobDetail"></div>
+  <div class="container" id="jobDetail">読み込み中...</div>
 
   <script>
-    const jobs = [
-      {
-        id: "001",
-        name: "佐藤 花子",
-        job: "ライティング",
-        genre: ["Web", "出版"],
-        description: "感情に寄り添う文章が得意です。ZINE制作も好きです。",
-        budget: "1〜3万円",
-        portfolio: "https://example.com/portfolio-hanako"
-      },
-      {
-        id: "002",
-        name: "田中 太郎",
-        job: "イベント司会",
-        genre: ["イベント", "司会"],
-        description: "トーク力に定評あり。小規模から大規模まで対応可能。",
-        budget: "〜5万円",
-        portfolio: "https://example.com/portfolio-taro"
-      }
-    ];
-
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
-    const target = jobs.find(j => j.id === id);
-
     const container = document.getElementById("jobDetail");
 
-    if (target) {
-      container.innerHTML = `
-        <h1>${target.job}（${target.name}）</h1>
-        <div><span class="label">ジャンル:</span> ${target.genre.join(", ")}</div>
-        <div><span class="label">概要:</span><br>${target.description}</div>
-        <div><span class="label">予算目安:</span> ${target.budget}</div>
-        <div><span class="label">実績:</span> <a href="${target.portfolio}" target="_blank">ポートフォリオを見る</a></div>
-        <div style="margin-top:2rem;"><a href="index.html">← 一覧に戻る</a></div>
-      `;
-    } else {
-      container.innerHTML = `<p>該当するデータが見つかりませんでした。</p><a href="index.html">← 一覧に戻る</a>`;
-    }
+    fetch("jobs.json")
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("データの読み込みに失敗しました。");
+        }
+        return response.json();
+      })
+      .then(jobs => {
+        const target = jobs.find(j => j.id === id);
+        if (target) {
+          container.innerHTML = `
+            <h1>${target.job}（${target.name}）</h1>
+            <div><span class="label">ジャンル:</span> ${target.genre.join(", ")}</div>
+            <div><span class="label">概要:</span><br>${target.description}</div>
+            <div><span class="label">予算目安:</span> ${target.budget}</div>
+            <div><span class="label">実績:</span> <a href="${target.portfolio}" target="_blank">ポートフォリオを見る</a></div>
+            <div style="margin-top:2rem;"><a href="index.html">← 一覧に戻る</a></div>
+          `;
+        } else {
+          container.innerHTML = `<p>該当するデータが見つかりませんでした。</p><a href="index.html">← 一覧に戻る</a>`;
+        }
+      })
+      .catch(error => {
+        container.innerHTML = `<p>データの読み込み中にエラーが発生しました。</p><p>${error.message}</p>`;
+      });
   </script>
 </body>
 </html>
