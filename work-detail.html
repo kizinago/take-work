@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>受けたい仕事の詳細</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 1rem;
+      background: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+    }
+    .label {
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+    a {
+      color: #007acc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="jobDetail"></div>
+
+  <script>
+    const jobs = [
+      {
+        id: "001",
+        name: "佐藤 花子",
+        job: "ライティング",
+        genre: ["Web", "出版"],
+        description: "感情に寄り添う文章が得意です。ZINE制作も好きです。",
+        budget: "1〜3万円",
+        portfolio: "https://example.com/portfolio-hanako"
+      },
+      {
+        id: "002",
+        name: "田中 太郎",
+        job: "イベント司会",
+        genre: ["イベント", "司会"],
+        description: "トーク力に定評あり。小規模から大規模まで対応可能。",
+        budget: "〜5万円",
+        portfolio: "https://example.com/portfolio-taro"
+      }
+    ];
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const target = jobs.find(j => j.id === id);
+
+    const container = document.getElementById("jobDetail");
+
+    if (target) {
+      container.innerHTML = `
+        <h1>${target.job}（${target.name}）</h1>
+        <div><span class="label">ジャンル:</span> ${target.genre.join(", ")}</div>
+        <div><span class="label">概要:</span><br>${target.description}</div>
+        <div><span class="label">予算目安:</span> ${target.budget}</div>
+        <div><span class="label">実績:</span> <a href="${target.portfolio}" target="_blank">ポートフォリオを見る</a></div>
+        <div style="margin-top:2rem;"><a href="index.html">← 一覧に戻る</a></div>
+      `;
+    } else {
+      container.innerHTML = `<p>該当するデータが見つかりませんでした。</p><a href="index.html">← 一覧に戻る</a>`;
+    }
+  </script>
+</body>
+</html>
