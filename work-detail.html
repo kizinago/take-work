@@ -39,7 +39,7 @@
     const id = params.get("id");
     const container = document.getElementById("jobDetail");
 
-    fetch("jobs.json")
+    fetch("work.json")
       .then(response => {
         if (!response.ok) {
           throw new Error("データの読み込みに失敗しました。");

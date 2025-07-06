@@ -53,7 +53,7 @@
   <div class="job-list" id="jobList">読み込み中...</div>
 
   <script>
-    fetch("jobs.json")
+    fetch("work.json")
       .then(response => {
         if (!response.ok) {
           throw new Error("データの読み込みに失敗しました。");
@@ -72,7 +72,7 @@
             <div class="genre">ジャンル: ${item.genre.join(", ")}</div>
             <div class="desc">${item.description}</div>
             <div class="budget">予算目安: ${item.budget}</div>
-            <a href="job-detail.html?id=${item.id}">詳細を見る</a>
+            <a href="work-detail.html?id=${item.id}">詳細を見る</a>
           `;
           list.appendChild(card);
         });
