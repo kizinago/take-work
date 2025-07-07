@@ -28,6 +28,18 @@
       padding: 0.2rem 0.5rem;
       margin-right: 0.5rem;
       display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+    .links {
+      margin-top: 1rem;
+    }
+    .links a {
+      color: #007acc;
+      text-decoration: none;
+      margin-right: 1rem;
+    }
+    .links a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
@@ -39,25 +51,60 @@
     const id = params.get("id");
     const container = document.getElementById("memberDetail");
 
+    // デバッグ用：取得したIDを確認
+    console.log("取得したID:", id);
+
+    if (!id) {
+      container.innerHTML = `<p>IDが指定されていません。</p><a href="index.html">← 一覧に戻る</a>`;
+      return;
+    }
+
     fetch("member.json")
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("データの読み込みに失敗しました。");
+        }
+        return response.json();
+      })
       .then(members => {
+        // デバッグ用：取得したメンバーデータを確認
+        console.log("メンバーデータ:", members);
+        
         const member = members.find(m => m.id === id);
+        console.log("見つかったメンバー:", member);
 
         if (!member) {
-          container.innerHTML = `<p>該当するデータが見つかりませんでした。</p><a href="index.html">← 一覧に戻る</a>`;
+          container.innerHTML = `
+            <p>該当するデータが見つかりませんでした。</p>
+            <p>指定されたID: ${id}</p>
+            <a href="index.html">← 一覧に戻る</a>
+          `;
           return;
+        }
+
+        // リンクの生成
+        let linksHtml = '';
+        if (member.links) {
+          linksHtml = '<div class="links"><strong>リンク:</strong><br>';
+          Object.entries(member.links).forEach(([key, url]) => {
+            const linkText = key === 'portfolio' ? 'ポートフォリオ' : 
+                           key === 'twitter' ? 'Twitter' : key;
+            linksHtml += `<a href="${url}" target="_blank">${linkText}</a>`;
+          });
+          linksHtml += '</div>';
         }
 
         container.innerHTML = `
           <h1>${member.name}</h1>
           <div><strong>紹介文:</strong><br>${member.bio}</div>
           ${member.tags.length ? `<div style="margin-top:1rem;"><strong>タグ:</strong><br>${member.tags.map(tag => `<span class="tag">${tag}</span>`).join(" ")}</div>` : ""}
+          ${linksHtml}
           <div style="margin-top:2rem;"><a href="index.html">← 一覧に戻る</a></div>
         `;
       })
       .catch(error => {
-        container.innerHTML = `<p>データの読み込みに失敗しました。</p><p>${error.message}</p>`;
+        console.error("エラー:", error);
+        container.innerHTML = `<p>データの読み込みに失敗しました。</p><p>${error.message}</p><a href="index.html">← 一覧に戻る</a>`;
       });
   </script>
 </body>
