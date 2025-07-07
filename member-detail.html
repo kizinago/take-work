@@ -57,7 +57,7 @@
 
     Promise.all([
       fetch("work.json").then(res => res.json()),
-      fetch("members.json").then(res => res.json())
+      fetch("member.json").then(res => res.json())
     ])
     .then(([jobs, members]) => {
       const target = jobs.find(j => j.id === id);
