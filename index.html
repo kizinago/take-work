@@ -254,34 +254,12 @@
         </div>
 
         <div class="controls">
-            <div class="spreadsheet-input">
-                <label for="spreadsheet-url">GoogleスプレッドシートURL：</label>
-                <input 
-                    type="text" 
-                    id="spreadsheet-url" 
-                    placeholder="https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=0"
-                >
-            </div>
-            
-            <div class="spreadsheet-input">
-                <label for="sheet-name">シート名：</label>
-                <input 
-                    type="text" 
-                    id="sheet-name" 
-                    placeholder="うけたい仕事"
-                    value="うけたい仕事"
-                >
-                <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">
-                    ※特定のシートを読み込む場合は、そのシートのタブを右クリック→「このシートにリンク」をコピーして、上のURLフィールドに貼り付けてください
-                </p>
-            </div>
-            
             <div class="search-filter">
                 <input 
                     type="text" 
                     id="search-input" 
                     class="search-input" 
-                    placeholder="名前、ジャンル、受けたい仕事で検索..."
+                    placeholder="受けたい仕事、ジャンル、担当者で検索..."
                 >
                 <button class="btn btn-primary" onclick="loadSpreadsheetData()">データを読み込む</button>
             </div>
@@ -294,17 +272,13 @@
 
         <div id="members-container">
             <div class="no-data">
-                <h3>データが読み込まれていません</h3>
-                <p>上記のフィールドにGoogleスプレッドシートのURLを入力して、「データを読み込む」ボタンを押してください。</p>
+                <h3>コミュニティメンバーの仕事一覧</h3>
+                <p>「データを読み込む」ボタンを押して、最新の情報を取得してください。</p>
                 
                 <div class="sample-data">
-                    <h4>スプレッドシートの形式例：</h4>
-                    <p><strong>C列：</strong> 受けたい仕事（概要）← 見出しになります</p>
-                    <p><strong>B列：</strong> ジャンル ← タグ表示されます</p>
-                    <p><strong>A列：</strong> 名前 ← 担当者として表示されます</p>
-                    <p><strong>D列：</strong> 詳細</p>
-                    <p><strong>E列：</strong> 規模感</p>
-                    <p><strong>F列：</strong> 実績</p>
+                    <h4>このサイトについて：</h4>
+                    <p>コミュニティメンバーの受けたい仕事と実績を一覧できます</p>
+                    <p>検索機能で、ご希望の内容にマッチするメンバーを見つけられます</p>
                 </div>
             </div>
         </div>
@@ -313,16 +287,6 @@
     <script>
         let allMembers = [];
         let filteredMembers = [];
-
-        // ページ読み込み時に保存されたURLを復元
-        window.addEventListener('load', function() {
-            if (window.lastUsedUrl) {
-                document.getElementById('spreadsheet-url').value = window.lastUsedUrl;
-            }
-            if (window.lastUsedSheet) {
-                document.getElementById('sheet-name').value = window.lastUsedSheet;
-            }
-        });
 
         // 検索機能
         document.getElementById('search-input').addEventListener('input', function() {
@@ -338,8 +302,7 @@
 
         // Googleスプレッドシートからデータを読み込む
         async function loadSpreadsheetData() {
-            const url = document.getElementById('spreadsheet-url').value;
-            const sheetName = document.getElementById('sheet-name').value || 'Sheet1';
+            const url = "https://docs.google.com/spreadsheets/d/1J9xzIgEIYF1CT8OLM9-25dRz1Z4DEAPJOV7AWMKgja4/edit?gid=1556962720#gid=1556962720"; // ここにスプレッドシートのURLを入力
             
             if (!url) {
                 alert('スプレッドシートのURLを入力してください。');
