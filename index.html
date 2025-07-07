@@ -81,7 +81,7 @@
           
           // memberIdが存在するかチェック
           const memberLinkHtml = item.memberId ? 
-            `<a href="member-detail.html?id=${item.memberId}">${item.name}</a>` : 
+            `<a href="member-detail.html?id=${item.id}">${item.name}</a>` : 
             `<span>${item.name}</span>`;
 
           card.innerHTML = `
