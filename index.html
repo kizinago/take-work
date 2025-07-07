@@ -319,7 +319,7 @@
             const spreadsheetId = match[1];
             
             // gidをURLから抽出、なければデフォルトの0
-            let gid = '0';
+            let gid = '1556962720'; // URLから取得したgid
             const gidMatch = url.match(/[#&]gid=([0-9]+)/);
             if (gidMatch) {
                 gid = gidMatch[1];
@@ -332,10 +332,10 @@
             const urls = [
                 // 方法1: gidを使用
                 `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv&gid=${gid}`,
-                // 方法2: シート名を使用（古い形式）
-                `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv&sheet=${encodeURIComponent(sheetName)}`,
-                // 方法3: デフォルトのシート
-                `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv`
+                // 方法2: デフォルトのシート
+                `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv`,
+                // 方法3: 公開URLを試行
+                `https://docs.google.com/spreadsheets/d/${spreadsheetId}/gviz/tq?tqx=out:csv&gid=${gid}`
             ];
 
             let success = false;
