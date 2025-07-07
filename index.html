@@ -260,7 +260,6 @@
                     type="text" 
                     id="spreadsheet-url" 
                     placeholder="https://docs.google.com/spreadsheets/d/YOUR_SPREADSHEET_ID/edit#gid=0"
-                    value="https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit#gid=0"
                 >
             </div>
             
@@ -300,9 +299,9 @@
                 
                 <div class="sample-data">
                     <h4>スプレッドシートの形式例：</h4>
-                    <p><strong>A列：</strong> 名前</p>
-                    <p><strong>B列：</strong> ジャンル</p>
-                    <p><strong>C列：</strong> 受けたい仕事（概要）</p>
+                    <p><strong>C列：</strong> 受けたい仕事（概要）← 見出しになります</p>
+                    <p><strong>B列：</strong> ジャンル ← タグ表示されます</p>
+                    <p><strong>A列：</strong> 名前 ← 担当者として表示されます</p>
                     <p><strong>D列：</strong> 詳細</p>
                     <p><strong>E列：</strong> 規模感</p>
                     <p><strong>F列：</strong> 実績</p>
@@ -314,6 +313,16 @@
     <script>
         let allMembers = [];
         let filteredMembers = [];
+
+        // ページ読み込み時に保存されたURLを復元
+        window.addEventListener('load', function() {
+            if (window.lastUsedUrl) {
+                document.getElementById('spreadsheet-url').value = window.lastUsedUrl;
+            }
+            if (window.lastUsedSheet) {
+                document.getElementById('sheet-name').value = window.lastUsedSheet;
+            }
+        });
 
         // 検索機能
         document.getElementById('search-input').addEventListener('input', function() {
@@ -455,6 +464,10 @@
                     filteredMembers = [...allMembers];
                     displayMembers(filteredMembers);
                     success = true;
+                    
+                    // URLをローカルストレージに保存（ただし、ブラウザ環境では変数に保存）
+                    window.lastUsedUrl = url;
+                    window.lastUsedSheet = sheetName;
                     break;
 
                 } catch (error) {
@@ -502,26 +515,19 @@
 
             const membersHTML = members.map(member => `
                 <div class="member-card">
-                    <div class="member-name">${member.name}</div>
-                    
-                    ${member.genre ? `
-                        <div class="member-info">
-                            <strong>ジャンル：</strong>
-                            <p>${member.genre}</p>
-                        </div>
-                    ` : ''}
-                    
-                    ${member.desiredWork ? `
-                        <div class="member-info">
-                            <strong>受けたい仕事（概要）：</strong>
-                            <p>${member.desiredWork.replace(/<br>/g, '<br>')}</p>
-                        </div>
-                    ` : ''}
+                    <div class="member-name">${member.desiredWork}</div>
                     
                     ${member.details ? `
                         <div class="member-info">
                             <strong>詳細：</strong>
                             <p>${member.details.replace(/<br>/g, '<br>')}</p>
+                        </div>
+                    ` : ''}
+                    
+                    ${member.name ? `
+                        <div class="member-info">
+                            <strong>担当者：</strong>
+                            <p>${member.name}</p>
                         </div>
                     ` : ''}
                     
