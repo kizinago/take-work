@@ -39,7 +39,7 @@
     const id = params.get("id");
     const container = document.getElementById("memberDetail");
 
-    fetch("members.json")
+    fetch("member.json")
       .then(response => response.json())
       .then(members => {
         const member = members.find(m => m.id === id);
