@@ -29,10 +29,26 @@
     a {
       color: #007acc;
     }
+    .job-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .job-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
   </style>
 </head>
 <body>
   <div class="container" id="jobDetail">読み込み中...</div>
+  <div class="job-list" id="relatedJobs"></div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
