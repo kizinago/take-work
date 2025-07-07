@@ -46,6 +46,10 @@
       color: #007acc;
       text-decoration: underline;
     }
+    .member-name {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -64,12 +68,25 @@
         const list = document.getElementById("jobList");
         list.innerHTML = "";
 
+        // デバッグ用：取得したデータを確認
+        console.log("取得したジョブデータ:", jobs);
+
         jobs.forEach(item => {
+          // デバッグ用：各アイテムの内容を確認
+          console.log("処理中のアイテム:", item);
+          console.log("memberId:", item.memberId);
+
           const card = document.createElement("div");
           card.className = "job-card";
+          
+          // memberIdが存在するかチェック
+          const memberLinkHtml = item.memberId ? 
+            `<a href="member-detail.html?id=${item.memberId}">${item.name}</a>` : 
+            `<span>${item.name}</span>`;
+
           card.innerHTML = `
             <h2>${item.job}</h2>
-            <a href="member-detail.html?id=${item.memberId}">${item.name}</a>
+            <div class="member-name">${memberLinkHtml}</div>
             <div class="genre">ジャンル: ${item.genre.join(", ")}</div>
             <div class="desc">${item.description}</div>
             <div class="budget">予算目安: ${item.budget}</div>
@@ -79,6 +96,7 @@
         });
       })
       .catch(error => {
+        console.error("エラー:", error);
         const list = document.getElementById("jobList");
         list.innerHTML = `<p>データの読み込み中にエラーが発生しました。</p><p>${error.message}</p>`;
       });
