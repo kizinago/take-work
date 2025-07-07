@@ -3,254 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>コミュニティメンバー営業サイト</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif;
-            background: linear-gradient(135deg, #2d7d32 0%, #388e3c 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-
-        .controls {
-            padding: 30px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .spreadsheet-input {
-            margin-bottom: 20px;
-        }
-
-        .spreadsheet-input label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #1b5e20;
-        }
-
-        .spreadsheet-input input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .spreadsheet-input input:focus {
-            outline: none;
-            border-color: #2e7d32;
-        }
-
-        .search-filter {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .search-input {
-            flex: 1;
-            min-width: 250px;
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3);
-        }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #2e7d32;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .members-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            padding: 30px;
-        }
-
-        .member-card {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border: 1px solid #e9ecef;
-        }
-
-        .member-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-        }
-
-        .member-name {
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: #1b5e20;
-            margin-bottom: 15px;
-        }
-
-        .member-info {
-            margin-bottom: 15px;
-        }
-
-        .member-info strong {
-            color: #2e7d32;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .member-info p {
-            color: #555;
-            line-height: 1.6;
-        }
-
-        .skills-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 15px;
-        }
-
-        .skill-tag {
-            background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .no-data {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-
-        .no-data h3 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: #1b5e20;
-        }
-
-        .sample-data {
-            margin-top: 20px;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            border-left: 4px solid #2e7d32;
-        }
-
-        .sample-data h4 {
-            color: #1b5e20;
-            margin-bottom: 10px;
-        }
-
-        .sample-data p {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 8px;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .search-filter {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .search-input {
-                min-width: unset;
-            }
-            
-            .members-grid {
-                grid-template-columns: 1fr;
-                padding: 20px;
-            }
-        }
-    </style>
+    <title>のんびり村受けたい仕事リスト</title>
+    <link rel="stylesheet" href="main.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>コミュニティメンバー営業サイト</h1>
-            <p>スキルと経験を活かした最適なパートナーを見つけましょう</p>
+            <h1>のんびり村受けたい仕事リスト</h1>
+            <p>お仕事ください！</p>
         </div>
 
         <div class="controls">
@@ -272,13 +32,13 @@
 
         <div id="members-container">
             <div class="no-data">
-                <h3>コミュニティメンバーの仕事一覧</h3>
+                <h3>全ての受けたい仕事一覧</h3>
                 <p>「データを読み込む」ボタンを押して、最新の情報を取得してください。</p>
                 
                 <div class="sample-data">
                     <h4>このサイトについて：</h4>
-                    <p>コミュニティメンバーの受けたい仕事と実績を一覧できます</p>
-                    <p>検索機能で、ご希望の内容にマッチするメンバーを見つけられます</p>
+                    <p>のんびり村住人の受けたい仕事と実績を一覧で見ることができます。</p>
+                    <p>検索機能を使って、ご希望の内容にマッチする人を見つけられます。</p>
                 </div>
             </div>
         </div>
@@ -479,38 +239,38 @@
             const membersHTML = members.map(member => `
                 <div class="member-card">
                     <div class="member-name">${member.desiredWork}</div>
-                    
+
+                    ${member.genre ? `
+                        <div class="skills-tags">
+                            <span class="skill-tag">${member.genre}</span>
+                        </div>
+                    ` : ''}
+
                     ${member.details ? `
                         <div class="member-info">
-                            <strong>詳細：</strong>
+                            <strong>詳細</strong>
                             <p>${member.details.replace(/<br>/g, '<br>')}</p>
                         </div>
                     ` : ''}
                     
                     ${member.name ? `
                         <div class="member-info">
-                            <strong>担当者：</strong>
+                            <strong>担当者</strong>
                             <p>${member.name}</p>
                         </div>
                     ` : ''}
                     
                     ${member.scale ? `
                         <div class="member-info">
-                            <strong>規模感：</strong>
+                            <strong>規模感</strong>
                             <p>${member.scale}</p>
                         </div>
                     ` : ''}
                     
                     ${member.achievements ? `
                         <div class="member-info">
-                            <strong>実績：</strong>
+                            <strong>実績</strong>
                             <p>${member.achievements.replace(/<br>/g, '<br>')}</p>
-                        </div>
-                    ` : ''}
-                    
-                    ${member.genre ? `
-                        <div class="skills-tags">
-                            <span class="skill-tag">${member.genre}</span>
                         </div>
                     ` : ''}
                 </div>
@@ -519,29 +279,6 @@
             container.innerHTML = `<div class="members-grid">${membersHTML}</div>`;
         }
 
-        // デモデータの読み込み（サンプルとして）
-        function loadSampleData() {
-            allMembers = [
-                {
-                    name: "田中太郎",
-                    genre: "Web開発",
-                    desiredWork: "ECサイト構築・管理システム開発",
-                    details: "React/Node.jsを使用したモダンなWebアプリケーション開発。API設計からフロントエンドまで一貫して対応可能です。",
-                    scale: "月額20万円〜、3ヶ月以上の案件希望",
-                    achievements: "某大手企業のECサイトリニューアル、スタートアップのMVP開発など"
-                },
-                {
-                    name: "佐藤花子",
-                    genre: "デザイン",
-                    desiredWork: "ブランドデザイン・UI/UXデザイン",
-                    details: "企業のブランドアイデンティティ構築からWebサイト・アプリのUI/UXデザインまで幅広く対応します。",
-                    scale: "プロジェクトベース：50万円〜",
-                    achievements: "地方自治体のロゴデザイン、フィンテック企業のアプリUI設計など"
-                }
-            ];
-            filteredMembers = [...allMembers];
-            displayMembers(filteredMembers);
-        }
     </script>
 </body>
 </html>
