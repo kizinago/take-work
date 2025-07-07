@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2d7d32 0%, #388e3c 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -28,7 +28,7 @@
         }
 
         .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
             color: white;
             padding: 30px;
             text-align: center;
@@ -59,7 +59,7 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #2c3e50;
+            color: #1b5e20;
         }
 
         .spreadsheet-input input {
@@ -73,7 +73,7 @@
 
         .spreadsheet-input input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #2e7d32;
         }
 
         .search-filter {
@@ -105,13 +105,13 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%);
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3);
         }
 
         .loading {
@@ -122,7 +122,7 @@
 
         .spinner {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            border-top: 4px solid #2e7d32;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -159,7 +159,7 @@
         .member-name {
             font-size: 1.4rem;
             font-weight: 700;
-            color: #2c3e50;
+            color: #1b5e20;
             margin-bottom: 15px;
         }
 
@@ -168,7 +168,7 @@
         }
 
         .member-info strong {
-            color: #667eea;
+            color: #2e7d32;
             display: block;
             margin-bottom: 5px;
         }
@@ -186,7 +186,7 @@
         }
 
         .skill-tag {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2e7d32 0%, #388e3c 100%);
             color: white;
             padding: 6px 12px;
             border-radius: 20px;
@@ -203,7 +203,7 @@
         .no-data h3 {
             font-size: 1.5rem;
             margin-bottom: 10px;
-            color: #2c3e50;
+            color: #1b5e20;
         }
 
         .sample-data {
@@ -211,11 +211,11 @@
             padding: 20px;
             background: #f8f9fa;
             border-radius: 8px;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #2e7d32;
         }
 
         .sample-data h4 {
-            color: #2c3e50;
+            color: #1b5e20;
             margin-bottom: 10px;
         }
 
@@ -264,12 +264,22 @@
                 >
             </div>
             
+            <div class="spreadsheet-input">
+                <label for="sheet-name">シート名（オプション）：</label>
+                <input 
+                    type="text" 
+                    id="sheet-name" 
+                    placeholder="Sheet1"
+                    value="Sheet1"
+                >
+            </div>
+            
             <div class="search-filter">
                 <input 
                     type="text" 
                     id="search-input" 
                     class="search-input" 
-                    placeholder="名前、スキル、希望する仕事で検索..."
+                    placeholder="名前、ジャンル、受けたい仕事で検索..."
                 >
                 <button class="btn btn-primary" onclick="loadSpreadsheetData()">データを読み込む</button>
             </div>
@@ -288,11 +298,11 @@
                 <div class="sample-data">
                     <h4>スプレッドシートの形式例：</h4>
                     <p><strong>A列：</strong> 名前</p>
-                    <p><strong>B列：</strong> スキル（カンマ区切り）</p>
-                    <p><strong>C列：</strong> 希望する仕事</p>
-                    <p><strong>D列：</strong> 経験年数</p>
-                    <p><strong>E列：</strong> 自己紹介</p>
-                    <p><strong>F列：</strong> 連絡先</p>
+                    <p><strong>B列：</strong> ジャンル</p>
+                    <p><strong>C列：</strong> 受けたい仕事（概要）</p>
+                    <p><strong>D列：</strong> 詳細</p>
+                    <p><strong>E列：</strong> 規模感</p>
+                    <p><strong>F列：</strong> 実績</p>
                 </div>
             </div>
         </div>
@@ -307,8 +317,9 @@
             const searchTerm = this.value.toLowerCase();
             filteredMembers = allMembers.filter(member => 
                 member.name.toLowerCase().includes(searchTerm) ||
-                member.skills.toLowerCase().includes(searchTerm) ||
-                member.desiredWork.toLowerCase().includes(searchTerm)
+                member.genre.toLowerCase().includes(searchTerm) ||
+                member.desiredWork.toLowerCase().includes(searchTerm) ||
+                member.details.toLowerCase().includes(searchTerm)
             );
             displayMembers(filteredMembers);
         });
@@ -316,6 +327,7 @@
         // Googleスプレッドシートからデータを読み込む
         async function loadSpreadsheetData() {
             const url = document.getElementById('spreadsheet-url').value;
+            const sheetName = document.getElementById('sheet-name').value || 'Sheet1';
             
             if (!url) {
                 alert('スプレッドシートのURLを入力してください。');
@@ -330,15 +342,23 @@
             }
 
             const spreadsheetId = match[1];
-            const csvUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv`;
+            const csvUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv&gid=0`;
+            
+            // もしシート名が指定されていて、Sheet1以外の場合は、gidを取得する必要があります
+            // 今回は簡単のため、シート名をCSVのURLに含める形でサポートします
+            let finalUrl = csvUrl;
+            if (sheetName && sheetName !== 'Sheet1') {
+                // シート名が指定されている場合、別の方法でアクセス
+                finalUrl = `https://docs.google.com/spreadsheets/d/${spreadsheetId}/export?format=csv&sheet=${encodeURIComponent(sheetName)}`;
+            }
 
             document.getElementById('loading').style.display = 'block';
             document.getElementById('members-container').innerHTML = '';
 
             try {
-                const response = await fetch(csvUrl);
+                const response = await fetch(finalUrl);
                 if (!response.ok) {
-                    throw new Error('スプレッドシートの読み込みに失敗しました。スプレッドシートが公開されているか確認してください。');
+                    throw new Error('スプレッドシートの読み込みに失敗しました。スプレッドシートが公開されているか、シート名が正しいか確認してください。');
                 }
 
                 const csvData = await response.text();
@@ -349,11 +369,11 @@
 
                 allMembers = dataRows.map(row => ({
                     name: row[0] || '',
-                    skills: row[1] || '',
+                    genre: row[1] || '',
                     desiredWork: row[2] || '',
-                    experience: row[3] || '',
-                    introduction: row[4] || '',
-                    contact: row[5] || ''
+                    details: row[3] || '',
+                    scale: row[4] || '',
+                    achievements: row[5] || ''
                 }));
 
                 filteredMembers = [...allMembers];
@@ -391,39 +411,44 @@
                 <div class="member-card">
                     <div class="member-name">${member.name}</div>
                     
+                    ${member.genre ? `
+                        <div class="member-info">
+                            <strong>ジャンル：</strong>
+                            <p>${member.genre}</p>
+                        </div>
+                    ` : ''}
+                    
                     ${member.desiredWork ? `
                         <div class="member-info">
-                            <strong>希望する仕事：</strong>
+                            <strong>受けたい仕事（概要）：</strong>
                             <p>${member.desiredWork}</p>
                         </div>
                     ` : ''}
                     
-                    ${member.experience ? `
+                    ${member.details ? `
                         <div class="member-info">
-                            <strong>経験年数：</strong>
-                            <p>${member.experience}</p>
+                            <strong>詳細：</strong>
+                            <p>${member.details}</p>
                         </div>
                     ` : ''}
                     
-                    ${member.introduction ? `
+                    ${member.scale ? `
                         <div class="member-info">
-                            <strong>自己紹介：</strong>
-                            <p>${member.introduction}</p>
+                            <strong>規模感：</strong>
+                            <p>${member.scale}</p>
                         </div>
                     ` : ''}
                     
-                    ${member.contact ? `
+                    ${member.achievements ? `
                         <div class="member-info">
-                            <strong>連絡先：</strong>
-                            <p>${member.contact}</p>
+                            <strong>実績：</strong>
+                            <p>${member.achievements}</p>
                         </div>
                     ` : ''}
                     
-                    ${member.skills ? `
+                    ${member.genre ? `
                         <div class="skills-tags">
-                            ${member.skills.split(',').map(skill => 
-                                `<span class="skill-tag">${skill.trim()}</span>`
-                            ).join('')}
+                            <span class="skill-tag">${member.genre}</span>
                         </div>
                     ` : ''}
                 </div>
@@ -437,19 +462,19 @@
             allMembers = [
                 {
                     name: "田中太郎",
-                    skills: "Web開発, React, Node.js",
-                    desiredWork: "フロントエンド開発、SPAの構築",
-                    experience: "5年",
-                    introduction: "モダンなWebアプリケーション開発を得意としています。",
-                    contact: "tanaka@example.com"
+                    genre: "Web開発",
+                    desiredWork: "ECサイト構築・管理システム開発",
+                    details: "React/Node.jsを使用したモダンなWebアプリケーション開発。API設計からフロントエンドまで一貫して対応可能です。",
+                    scale: "月額20万円〜、3ヶ月以上の案件希望",
+                    achievements: "某大手企業のECサイトリニューアル、スタートアップのMVP開発など"
                 },
                 {
                     name: "佐藤花子",
-                    skills: "グラフィックデザイン, UI/UX, Adobe Creative Suite",
-                    desiredWork: "ブランドデザイン、UI/UXデザイン",
-                    experience: "3年",
-                    introduction: "ユーザー体験を重視したデザインを心がけています。",
-                    contact: "sato@example.com"
+                    genre: "デザイン",
+                    desiredWork: "ブランドデザイン・UI/UXデザイン",
+                    details: "企業のブランドアイデンティティ構築からWebサイト・アプリのUI/UXデザインまで幅広く対応します。",
+                    scale: "プロジェクトベース：50万円〜",
+                    achievements: "地方自治体のロゴデザイン、フィンテック企業のアプリUI設計など"
                 }
             ];
             filteredMembers = [...allMembers];
