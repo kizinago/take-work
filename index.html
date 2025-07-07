@@ -68,7 +68,8 @@
           const card = document.createElement("div");
           card.className = "job-card";
           card.innerHTML = `
-            <h2>${item.job}（<a href="member-detail.html?id=${item.memberId}">${item.name}</a>）</h2>
+            <h2>${item.job}</h2>
+            <a href="member-detail.html?id=${item.memberId}">${item.name}</a>
             <div class="genre">ジャンル: ${item.genre.join(", ")}</div>
             <div class="desc">${item.description}</div>
             <div class="budget">予算目安: ${item.budget}</div>

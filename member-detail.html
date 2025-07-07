@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>受けたい仕事の詳細</title>
+  <title>メンバー詳細</title>
   <style>
     body {
       font-family: sans-serif;
@@ -20,68 +20,45 @@
     }
     h1 {
       font-size: 1.6rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
     }
-    .label {
-      font-weight: bold;
-      margin-top: 1rem;
-    }
-    a {
-      color: #007acc;
-    }
-    .job-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-    .job-card {
-      background: white;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 1rem;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    .tag {
+      background: #e0e0e0;
+      border-radius: 4px;
+      padding: 0.2rem 0.5rem;
+      margin-right: 0.5rem;
+      display: inline-block;
     }
   </style>
 </head>
 <body>
-  <div class="container" id="jobDetail">読み込み中...</div>
-  <div class="job-list" id="relatedJobs"></div>
+  <div class="container" id="memberDetail">読み込み中...</div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
-    const container = document.getElementById("jobDetail");
+    const container = document.getElementById("memberDetail");
 
-    Promise.all([
-      fetch("work.json").then(res => res.json()),
-      fetch("member.json").then(res => res.json())
-    ])
-    .then(([jobs, members]) => {
-      const target = jobs.find(j => j.id === id);
-      if (!target) {
-        container.innerHTML = `<p>該当するデータが見つかりませんでした。</p><a href="index.html">← 一覧に戻る</a>`;
-        return;
-      }
+    fetch("members.json")
+      .then(response => response.json())
+      .then(members => {
+        const member = members.find(m => m.id === id);
 
-      const member = members.find(m => m.id === target.memberId);
+        if (!member) {
+          container.innerHTML = `<p>該当するデータが見つかりませんでした。</p><a href="index.html">← 一覧に戻る</a>`;
+          return;
+        }
 
-      container.innerHTML = `
-        <h1>${target.job}（<a href="member-detail.html?id=${target.memberId}">${target.name}</a>）</h1>
-        <div><span class="label">ジャンル:</span> ${target.genre.join(", ")}</div>
-        <div><span class="label">概要:</span><br>${target.description}</div>
-        <div><span class="label">予算目安:</span> ${target.budget}</div>
-        <div><span class="label">実績:</span> <a href="${target.portfolio}" target="_blank">ポートフォリオを見る</a></div>
-        ${member ? `<div><span class="label">紹介文:</span><br>${member.bio}</div>` : ""}
-        ${member && member.tags.length ? `<div><span class="label">タグ:</span><br>${member.tags.map(tag => `<span class='tag'>${tag}</span>`).join(" ")}</div>` : ""}
-        <div style="margin-top:2rem;"><a href="index.html">← 一覧に戻る</a></div>
-      `;
-    })
-    .catch(error => {
-      container.innerHTML = `<p>データの読み込み中にエラーが発生しました。</p><p>${error.message}</p>`;
-    });
+        container.innerHTML = `
+          <h1>${member.name}</h1>
+          <div><strong>紹介文:</strong><br>${member.bio}</div>
+          ${member.tags.length ? `<div style="margin-top:1rem;"><strong>タグ:</strong><br>${member.tags.map(tag => `<span class="tag">${tag}</span>`).join(" ")}</div>` : ""}
+          <div style="margin-top:2rem;"><a href="index.html">← 一覧に戻る</a></div>
+        `;
+      })
+      .catch(error => {
+        container.innerHTML = `<p>データの読み込みに失敗しました。</p><p>${error.message}</p>`;
+      });
   </script>
 </body>
 </html>
