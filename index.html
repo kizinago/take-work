@@ -385,27 +385,56 @@
                         throw new Error('空のデータが返されました');
                     }
 
-                    // CSVを解析
-                    const rows = csvData.split('\n').map(row => {
-                        // より適切なCSV解析（カンマが含まれる場合を考慮）
-                        const result = [];
-                        let current = '';
-                        let inQuotes = false;
+                    // CSVを解析（改行対応版）
+                    const rows = [];
+                    const lines = csvData.split('\n');
+                    let currentRow = [];
+                    let currentCell = '';
+                    let insideQuotes = false;
+                    
+                    for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+                        const line = lines[lineIndex];
                         
-                        for (let i = 0; i < row.length; i++) {
-                            const char = row[i];
+                        for (let i = 0; i < line.length; i++) {
+                            const char = line[i];
+                            const nextChar = line[i + 1];
+                            
                             if (char === '"') {
-                                inQuotes = !inQuotes;
-                            } else if (char === ',' && !inQuotes) {
-                                result.push(current.trim());
-                                current = '';
+                                if (insideQuotes && nextChar === '"') {
+                                    // エスケープされた引用符
+                                    currentCell += '"';
+                                    i++; // 次の文字をスキップ
+                                } else {
+                                    // 引用符の開始または終了
+                                    insideQuotes = !insideQuotes;
+                                }
+                            } else if (char === ',' && !insideQuotes) {
+                                // セルの区切り
+                                currentRow.push(currentCell.trim());
+                                currentCell = '';
                             } else {
-                                current += char;
+                                currentCell += char;
                             }
                         }
-                        result.push(current.trim());
-                        return result;
-                    });
+                        
+                        // 行の終わり
+                        if (!insideQuotes) {
+                            // 引用符の外にいる場合、行を完了
+                            currentRow.push(currentCell.trim());
+                            rows.push(currentRow);
+                            currentRow = [];
+                            currentCell = '';
+                        } else {
+                            // 引用符の中にいる場合、改行を<br>に変換
+                            currentCell += '<br>';
+                        }
+                    }
+                    
+                    // 最後の行が残っている場合
+                    if (currentRow.length > 0 || currentCell.length > 0) {
+                        currentRow.push(currentCell.trim());
+                        rows.push(currentRow);
+                    }
                     
                     // ヘッダー行をスキップして、有効なデータ行を取得
                     const dataRows = rows.slice(1).filter(row => row.length > 1 && row[0] && row[0].length > 0);
@@ -415,12 +444,12 @@
                     }
 
                     allMembers = dataRows.map(row => ({
-                        name: row[0] || '',
-                        genre: row[1] || '',
-                        desiredWork: row[2] || '',
-                        details: row[3] || '',
-                        scale: row[4] || '',
-                        achievements: row[5] || ''
+                        name: (row[0] || '').replace(/<br>/g, ' '),
+                        genre: (row[1] || '').replace(/<br>/g, ' '),
+                        desiredWork: (row[2] || ''),
+                        details: (row[3] || ''),
+                        scale: (row[4] || '').replace(/<br>/g, ' '),
+                        achievements: (row[5] || '')
                     }));
 
                     filteredMembers = [...allMembers];
@@ -485,14 +514,14 @@
                     ${member.desiredWork ? `
                         <div class="member-info">
                             <strong>受けたい仕事（概要）：</strong>
-                            <p>${member.desiredWork}</p>
+                            <p>${member.desiredWork.replace(/<br>/g, '<br>')}</p>
                         </div>
                     ` : ''}
                     
                     ${member.details ? `
                         <div class="member-info">
                             <strong>詳細：</strong>
-                            <p>${member.details}</p>
+                            <p>${member.details.replace(/<br>/g, '<br>')}</p>
                         </div>
                     ` : ''}
                     
@@ -506,7 +535,7 @@
                     ${member.achievements ? `
                         <div class="member-info">
                             <strong>実績：</strong>
-                            <p>${member.achievements}</p>
+                            <p>${member.achievements.replace(/<br>/g, '<br>')}</p>
                         </div>
                     ` : ''}
                     
