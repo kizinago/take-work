@@ -39,31 +39,33 @@
     const id = params.get("id");
     const container = document.getElementById("jobDetail");
 
-    fetch("work.json")
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("データの読み込みに失敗しました。");
-        }
-        return response.json();
-      })
-      .then(jobs => {
-        const target = jobs.find(j => j.id === id);
-        if (target) {
-          container.innerHTML = `
-            <h1>${target.job}（<a href="member-detail.html?id=${target.memberId}">${target.name}</a>）</h1>
-            <div><span class="label">ジャンル:</span> ${target.genre.join(", ")}</div>
-            <div><span class="label">概要:</span><br>${target.description}</div>
-            <div><span class="label">予算目安:</span> ${target.budget}</div>
-            <div><span class="label">実績:</span> <a href="${target.portfolio}" target="_blank">ポートフォリオを見る</a></div>
-            <div style="margin-top:2rem;"><a href="index.html">← 一覧に戻る</a></div>
-          `;
-        } else {
-          container.innerHTML = `<p>該当するデータが見つかりませんでした。</p><a href="index.html">← 一覧に戻る</a>`;
-        }
-      })
-      .catch(error => {
-        container.innerHTML = `<p>データの読み込み中にエラーが発生しました。</p><p>${error.message}</p>`;
-      });
+    Promise.all([
+      fetch("work.json").then(res => res.json()),
+      fetch("members.json").then(res => res.json())
+    ])
+    .then(([jobs, members]) => {
+      const target = jobs.find(j => j.id === id);
+      if (!target) {
+        container.innerHTML = `<p>該当するデータが見つかりませんでした。</p><a href="index.html">← 一覧に戻る</a>`;
+        return;
+      }
+
+      const member = members.find(m => m.id === target.memberId);
+
+      container.innerHTML = `
+        <h1>${target.job}（<a href="member-detail.html?id=${target.memberId}">${target.name}</a>）</h1>
+        <div><span class="label">ジャンル:</span> ${target.genre.join(", ")}</div>
+        <div><span class="label">概要:</span><br>${target.description}</div>
+        <div><span class="label">予算目安:</span> ${target.budget}</div>
+        <div><span class="label">実績:</span> <a href="${target.portfolio}" target="_blank">ポートフォリオを見る</a></div>
+        ${member ? `<div><span class="label">紹介文:</span><br>${member.bio}</div>` : ""}
+        ${member && member.tags.length ? `<div><span class="label">タグ:</span><br>${member.tags.map(tag => `<span class='tag'>${tag}</span>`).join(" ")}</div>` : ""}
+        <div style="margin-top:2rem;"><a href="index.html">← 一覧に戻る</a></div>
+      `;
+    })
+    .catch(error => {
+      container.innerHTML = `<p>データの読み込み中にエラーが発生しました。</p><p>${error.message}</p>`;
+    });
   </script>
 </body>
 </html>
