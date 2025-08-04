@@ -135,7 +135,7 @@
 
     .members-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
         gap: 20px;
         padding: 30px;
     }
@@ -236,8 +236,16 @@
             font-size: 1.25rem;
         }
 
+        .member-info strong {
+            font-size: 1rem;
+        }
+
         p {
             font-size: 0.9rem;
+        }
+
+        .skill-tag {
+            font-size: 0.8rem;
         }
 
         .search-filter {
