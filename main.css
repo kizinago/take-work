@@ -231,20 +231,24 @@
         .header p {
             font-size: 1rem;
         }
-        
+
+        .member-name {
+            font-size: 1.25rem;
+        }
+
         p {
             font-size: 0.9rem;
         }
-        
+
         .search-filter {
             flex-direction: column;
             align-items: stretch;
         }
-        
+
         .search-input {
             min-width: unset;
         }
-        
+
         .members-grid {
             grid-template-columns: 1fr;
             padding: 20px;
