@@ -11,6 +11,7 @@
         <div class="header">
             <h1>のんびり村受けたい仕事リスト</h1>
             <p>お仕事募集中！</p>
+            <a href="https://kizinago.github.io/take-work/community.html">のんびり村について</a>
         </div>
 
         <div class="controls">
@@ -34,7 +35,7 @@
             <div class="no-data">
                 <h3>全ての受けたい仕事一覧</h3>
                 <p>「データを読み込む」ボタンを押して、最新の情報を取得してください。</p>
-                
+
                 <div class="sample-data">
                     <h4>このサイトについて：</h4>
                     <p>のんびり村住人の受けたい仕事と実績を一覧で見ることができます。</p>
@@ -63,7 +64,7 @@
         // Googleスプレッドシートからデータを読み込む
         async function loadSpreadsheetData() {
             const url = "https://docs.google.com/spreadsheets/d/1J9xzIgEIYF1CT8OLM9-25dRz1Z4DEAPJOV7AWMKgja4/edit?gid=1556962720#gid=1556962720"; // ここにスプレッドシートのURLを入力
-            
+
             if (!url) {
                 alert('スプレッドシートのURLを入力してください。');
                 return;
@@ -77,7 +78,7 @@
             }
 
             const spreadsheetId = match[1];
-            
+
             // gidをURLから抽出、なければデフォルトの0
             let gid = '1556962720'; // URLから取得したgid
             const gidMatch = url.match(/[#&]gid=([0-9]+)/);
@@ -105,13 +106,13 @@
                 try {
                     console.log('試行中のURL:', csvUrl);
                     const response = await fetch(csvUrl);
-                    
+
                     if (!response.ok) {
                         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                     }
 
                     const csvData = await response.text();
-                    
+
                     // CSVデータが空でないかチェック
                     if (!csvData || csvData.trim().length === 0) {
                         throw new Error('空のデータが返されました');
@@ -123,14 +124,14 @@
                     let currentRow = [];
                     let currentCell = '';
                     let insideQuotes = false;
-                    
+
                     for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
                         const line = lines[lineIndex];
-                        
+
                         for (let i = 0; i < line.length; i++) {
                             const char = line[i];
                             const nextChar = line[i + 1];
-                            
+
                             if (char === '"') {
                                 if (insideQuotes && nextChar === '"') {
                                     // エスケープされた引用符
@@ -148,7 +149,7 @@
                                 currentCell += char;
                             }
                         }
-                        
+
                         // 行の終わり
                         if (!insideQuotes) {
                             // 引用符の外にいる場合、行を完了
@@ -161,16 +162,16 @@
                             currentCell += '<br>';
                         }
                     }
-                    
+
                     // 最後の行が残っている場合
                     if (currentRow.length > 0 || currentCell.length > 0) {
                         currentRow.push(currentCell.trim());
                         rows.push(currentRow);
                     }
-                    
+
                     // ヘッダー行をスキップして、有効なデータ行を取得
                     const dataRows = rows.slice(1).filter(row => row.length > 1 && row[0] && row[0].length > 0);
-                    
+
                     if (dataRows.length === 0) {
                         throw new Error('有効なデータが見つかりませんでした');
                     }
@@ -187,7 +188,7 @@
                     filteredMembers = [...allMembers];
                     displayMembers(filteredMembers);
                     success = true;
-                    
+
                     // URLをローカルストレージに保存（ただし、ブラウザ環境では変数に保存）
                     window.lastUsedUrl = url;
                     window.lastUsedSheet = sheetName;
@@ -225,7 +226,7 @@
         // メンバー一覧を表示
         function displayMembers(members) {
             const container = document.getElementById('members-container');
-            
+
             if (members.length === 0) {
                 container.innerHTML = `
                     <div class="no-data">
@@ -252,21 +253,21 @@
                             <p>${member.details.replace(/<br>/g, '<br>')}</p>
                         </div>
                     ` : ''}
-                    
+
                     ${member.name ? `
                         <div class="member-info">
                             <strong>担当者</strong>
                             <p>${member.name}</p>
                         </div>
                     ` : ''}
-                    
+
                     ${member.scale ? `
                         <div class="member-info">
                             <strong>規模感</strong>
                             <p>${member.scale}</p>
                         </div>
                     ` : ''}
-                    
+
                     ${member.achievements ? `
                         <div class="member-info">
                             <strong>実績</strong>
