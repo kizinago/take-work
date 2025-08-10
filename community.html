@@ -212,21 +212,12 @@
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
         }
 
-        .member-header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .member-name {
+        .service-title {
             font-size: 1.4rem;
             font-weight: 700;
             color: #e17055;
-            margin-bottom: 10px;
-        }
-
-        .member-basic {
-            color: #888;
-            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
         }
 
         .member-info {
@@ -243,6 +234,17 @@
         .member-info p {
             color: #555;
             line-height: 1.6;
+        }
+
+        .member-name-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 10px;
         }
 
         .skills-tags {
@@ -445,10 +447,10 @@
 
         <!-- メンバー紹介セクション -->
         <section class="members-section">
-            <h2 class="section-title">仲間たちのご紹介</h2>
+            <h2 class="section-title">みんなで支え合っています</h2>
             <p style="text-align: center; color: white; font-size: 1.1rem; margin-bottom: 30px;">
                 「何か困ったことがあったら、気軽に声をかけてください」<br>
-                そんな温かい仲間たちをご紹介します
+                私たちのコミュニティでは、こんなことでもお手伝いできます
             </p>
             
             <div class="search-container">
@@ -456,7 +458,7 @@
                     type="text" 
                     id="search-input" 
                     class="search-input" 
-                    placeholder="得意分野やお手伝いできることで検索..."
+                    placeholder="お手伝いできることやジャンルで検索..."
                 >
                 <button class="search-btn" onclick="loadSpreadsheetData()">メンバー情報を読み込む</button>
             </div>
@@ -468,8 +470,8 @@
 
             <div id="members-container">
                 <div class="no-data">
-                    <h3>温かい仲間たち</h3>
-                    <p>「メンバー情報を読み込む」ボタンを押して、私たちの仲間をご紹介いたします。</p>
+                    <h3>コミュニティでできること</h3>
+                    <p>「メンバー情報を読み込む」ボタンを押して、私たちがお手伝いできることをご紹介いたします。</p>
                     <p style="margin-top: 20px; color: #e17055;">それぞれが得意なことを活かして、お互いを支え合っています。</p>
                 </div>
             </div>
@@ -661,29 +663,13 @@
             }
 
             const membersHTML = members.map(member => {
-                // 年代と地域の推定（サンプルデータなので固定値）
-                const ages = ['20代', '30代', '40代', '50代'];
-                const regions = ['東京', '大阪', '神奈川', '愛知', '福岡', '北海道'];
-                const randomAge = ages[Math.floor(Math.random() * ages.length)];
-                const randomRegion = regions[Math.floor(Math.random() * regions.length)];
-
                 return `
                 <div class="member-card">
-                    <div class="member-header">
-                        <div class="member-name">${member.name || '〇〇さん'}</div>
-                        <div class="member-basic">${randomAge} · ${randomRegion}</div>
-                    </div>
-                    
-                    ${member.desiredWork ? `
-                        <div class="member-info">
-                            <strong>🌟 お手伝いできること</strong>
-                            <p>${member.desiredWork}</p>
-                        </div>
-                    ` : ''}
+                    <div class="service-title">${member.desiredWork || 'お手伝いできること'}</div>
                     
                     ${member.details ? `
                         <div class="member-info">
-                            <strong>💡 詳しい内容</strong>
+                            <strong>📝 詳しい内容</strong>
                             <p>${member.details.replace(/<br>/g, '<br>')}</p>
                         </div>
                     ` : ''}
@@ -702,11 +688,10 @@
                         </div>
                     ` : ''}
                     
-                    ${member.genre ? `
-                        <div class="skills-tags">
-                            <span class="skill-tag">${member.genre}</span>
-                        </div>
-                    ` : ''}
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 20px;">
+                        ${member.genre ? `<span class="skill-tag">${member.genre}</span>` : ''}
+                        ${member.name ? `<span class="member-name-tag">${member.name}さんが担当</span>` : ''}
+                    </div>
                 </div>
             `}).join('');
 
