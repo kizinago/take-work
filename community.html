@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>のんびり村コミュニティ</title>
+    <title>〇〇コミュニティ - 人と人をつなぐ場所</title>
     <style>
         * {
             margin: 0;
@@ -105,7 +105,7 @@
 
         .activities-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(425px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
             margin-top: 50px;
         }
@@ -182,19 +182,21 @@
 
         .members-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit);
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
             margin-top: 40px;
         }
 
         .member-card {
             background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
         }
 
         .member-card::before {
@@ -203,48 +205,169 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 5px;
+            height: 4px;
             background: linear-gradient(90deg, #ff7675, #fd79a8, #fdcb6e);
         }
 
         .member-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            border-color: #ff7675;
         }
 
         .service-title {
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 700;
             color: #e17055;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
-        .member-info {
-            margin-bottom: 20px;
-        }
-
-        .member-info strong {
-            color: #e17055;
-            display: block;
-            margin-bottom: 8px;
-            font-size: 1.05rem;
-        }
-
-        .member-info p {
-            color: #555;
-            line-height: 1.6;
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .member-name-tag {
             display: inline-block;
             background: linear-gradient(135deg, #74b9ff, #0984e3);
             color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .skill-tag {
+            background: linear-gradient(135deg, #ff7675, #fd79a8);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .click-hint {
+            text-align: center;
+            color: #999;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        /* ポップアップ */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            transform: translateY(50px);
+            transition: transform 0.3s ease;
+        }
+
+        .popup-overlay.active .popup-content {
+            transform: translateY(0);
+        }
+
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .popup-close:hover {
+            color: #e17055;
+        }
+
+        .popup-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #e17055;
+            margin-bottom: 25px;
+            padding-right: 40px;
+            line-height: 1.4;
+        }
+
+        .popup-info {
+            margin-bottom: 20px;
+        }
+
+        .popup-info strong {
+            color: #e17055;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .popup-info p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .popup-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .popup-genre-tag {
+            background: linear-gradient(135deg, #ff7675, #fd79a8);
+            color: white;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.9rem;
             font-weight: 500;
-            margin-top: 10px;
+        }
+
+        .popup-member-tag {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
         .skills-tags {
@@ -400,7 +523,7 @@
     <div class="container">
         <!-- ヘッダーセクション -->
         <section class="hero">
-            <h1>のんびり村（仮）</h1>
+            <h1>〇〇コミュニティ</h1>
             <p class="subtitle">人と人をつなぐ場所</p>
             <p class="description">全国の仲間と一緒に、もっと楽しい毎日を。<br>大人になってからの本当の友達づくりを大切にしています。</p>
         </section>
@@ -475,7 +598,21 @@
                     <p style="margin-top: 20px; color: #e17055;">それぞれが得意なことを活かして、お互いを支え合っています。</p>
                 </div>
             </div>
+            
+            <p class="click-hint" id="click-hint" style="display: none;">
+                📝 カードをクリックすると詳細情報をご覧いただけます
+            </p>
         </section>
+
+        <!-- ポップアップ -->
+        <div class="popup-overlay" id="popup-overlay">
+            <div class="popup-content">
+                <button class="popup-close" onclick="closePopup()">&times;</button>
+                <div id="popup-body">
+                    <!-- ポップアップの内容がここに表示されます -->
+                </div>
+            </div>
+        </div>
 
         <!-- つながりセクション -->
         <section class="contact-section">
@@ -651,52 +788,93 @@
         // メンバー一覧を表示
         function displayMembers(members) {
             const container = document.getElementById('members-container');
+            const clickHint = document.getElementById('click-hint');
             
             if (members.length === 0) {
                 container.innerHTML = `
                     <div class="no-data">
-                        <h3>該当するメンバーが見つかりません</h3>
+                        <h3>該当するお手伝い内容が見つかりません</h3>
                         <p>検索条件を変更してみてください。</p>
                     </div>
                 `;
+                clickHint.style.display = 'none';
                 return;
             }
 
-            const membersHTML = members.map(member => {
+            const membersHTML = members.map((member, index) => {
                 return `
-                <div class="member-card">
+                <div class="member-card" onclick="openPopup(${index})">
                     <div class="service-title">${member.desiredWork || 'お手伝いできること'}</div>
                     
-                    ${member.details ? `
-                        <div class="member-info">
-                            <strong>📝 詳しい内容</strong>
-                            <p>${member.details.replace(/<br>/g, '<br>')}</p>
-                        </div>
-                    ` : ''}
-                    
-                    ${member.scale ? `
-                        <div class="member-info">
-                            <strong>📊 規模感・条件</strong>
-                            <p>${member.scale}</p>
-                        </div>
-                    ` : ''}
-                    
-                    ${member.achievements ? `
-                        <div class="member-info">
-                            <strong>✨ これまでの実績</strong>
-                            <p>${member.achievements.replace(/<br>/g, '<br>')}</p>
-                        </div>
-                    ` : ''}
-                    
-                    <div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-top: 20px;">
+                    <div class="card-footer">
                         ${member.genre ? `<span class="skill-tag">${member.genre}</span>` : ''}
-                        ${member.name ? `<span class="member-name-tag">${member.name}</span>` : ''}
+                        ${member.name ? `<span class="member-name-tag">${member.name}さん</span>` : ''}
                     </div>
                 </div>
             `}).join('');
 
             container.innerHTML = `<div class="members-grid">${membersHTML}</div>`;
+            clickHint.style.display = 'block';
         }
+
+        // ポップアップを開く
+        function openPopup(index) {
+            const member = filteredMembers[index];
+            const popupBody = document.getElementById('popup-body');
+            
+            popupBody.innerHTML = `
+                <div class="popup-title">${member.desiredWork || 'お手伝いできること'}</div>
+                
+                ${member.details ? `
+                    <div class="popup-info">
+                        <strong>📝 詳しい内容</strong>
+                        <p>${member.details.replace(/<br>/g, '<br>')}</p>
+                    </div>
+                ` : ''}
+                
+                ${member.scale ? `
+                    <div class="popup-info">
+                        <strong>📊 規模感・条件</strong>
+                        <p>${member.scale}</p>
+                    </div>
+                ` : ''}
+                
+                ${member.achievements ? `
+                    <div class="popup-info">
+                        <strong>✨ これまでの実績</strong>
+                        <p>${member.achievements.replace(/<br>/g, '<br>')}</p>
+                    </div>
+                ` : ''}
+                
+                <div class="popup-tags">
+                    ${member.genre ? `<span class="popup-genre-tag">${member.genre}</span>` : ''}
+                    ${member.name ? `<span class="popup-member-tag">${member.name}さんが担当</span>` : ''}
+                </div>
+            `;
+            
+            document.getElementById('popup-overlay').classList.add('active');
+            document.body.style.overflow = 'hidden'; // 背景のスクロールを防ぐ
+        }
+
+        // ポップアップを閉じる
+        function closePopup() {
+            document.getElementById('popup-overlay').classList.remove('active');
+            document.body.style.overflow = 'auto'; // スクロールを復元
+        }
+
+        // オーバーレイクリックで閉じる
+        document.getElementById('popup-overlay').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePopup();
+            }
+        });
+
+        // ESCキーで閉じる
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closePopup();
+            }
+        });
     </script>
 </body>
 </html>
