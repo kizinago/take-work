@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>〇〇コミュニティ - 人と人をつなぐ場所</title>
+    <title>のんびり村（仮）</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Noto+Sans+JP:wght@100..900&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -12,34 +14,34 @@
         }
 
         body {
-            font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Meiryo', sans-serif;
+            font-family: "Noto Sans JP", sans-serif;
             line-height: 1.6;
-            background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 50%, #fd79a8 100%);
+            background: #79BD9A;
             min-height: 100vh;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
+            background: #EFEFEF;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
         /* ヘッダーセクション */
         .hero {
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(255, 159, 67, 0.9)), 
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="3" fill="rgba(255,255,255,0.3)"/><circle cx="800" cy="300" r="2" fill="rgba(255,255,255,0.4)"/><circle cx="400" cy="600" r="2.5" fill="rgba(255,255,255,0.2)"/><circle cx="700" cy="800" r="3" fill="rgba(255,255,255,0.3)"/></svg>');
-            color: white;
+            background: #A8DBA8;
+            color: #EFEFEF;
             padding: 60px 30px;
             text-align: center;
             position: relative;
         }
 
         .hero h1 {
+            font-family: 'Mochiy Pop P One', sans-serif;
             font-size: 3rem;
             margin-bottom: 15px;
-            font-weight: 700;
+            font-weight: 400;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
@@ -59,13 +61,13 @@
         /* コミュニティ紹介セクション */
         .community-intro {
             padding: 60px 30px;
-            background: #fff;
+            background: #EFEFEF;
         }
 
         .section-title {
             text-align: center;
             font-size: 2.5rem;
-            color: #e17055;
+            color: #79BD9A;
             margin-bottom: 50px;
             position: relative;
         }
@@ -75,7 +77,7 @@
             display: block;
             width: 80px;
             height: 4px;
-            background: linear-gradient(90deg, #ff7675, #fd79a8);
+            background: linear-gradient(90deg, #A8DBA8, #79BD9A);
             margin: 15px auto;
             border-radius: 2px;
         }
@@ -93,7 +95,7 @@
         }
 
         .intro-text h3 {
-            color: #e17055;
+            color: #79BD9A;
             font-size: 1.5rem;
             margin-bottom: 20px;
         }
@@ -111,7 +113,7 @@
         }
 
         .activity-card {
-            background: linear-gradient(135deg, #fff, #ffeaa7);
+            background: linear-gradient(135deg, #EFEFEF, #ffeaa7);
             padding: 30px;
             border-radius: 20px;
             text-align: center;
@@ -129,7 +131,7 @@
         }
 
         .activity-card h4 {
-            color: #e17055;
+            color: #79BD9A;
             font-size: 1.3rem;
             margin-bottom: 15px;
         }
@@ -142,11 +144,11 @@
         /* メンバー紹介セクション */
         .members-section {
             padding: 60px 30px;
-            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            background: #79BD9A;
         }
 
         .members-section .section-title {
-            color: #fff;
+            color: #EFEFEF;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
         }
 
@@ -171,8 +173,8 @@
             right: 10px;
             top: 50%;
             transform: translateY(-50%);
-            background: linear-gradient(135deg, #ff7675, #fd79a8);
-            color: white;
+            background: linear-gradient(135deg, #A8DBA8, #79BD9A);
+            color: #EFEFEF;
             border: none;
             padding: 10px 20px;
             border-radius: 25px;
@@ -188,7 +190,7 @@
         }
 
         .member-card {
-            background: white;
+            background: #EFEFEF;
             border-radius: 16px;
             padding: 25px;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
@@ -206,19 +208,19 @@
             left: 0;
             width: 100%;
             height: 4px;
-            background: linear-gradient(90deg, #ff7675, #fd79a8, #fdcb6e);
+            background: linear-gradient(90deg, #A8DBA8, #79BD9A, #fdcb6e);
         }
 
         .member-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            border-color: #ff7675;
+            border-color: #A8DBA8;
         }
 
         .service-title {
             font-size: 1.2rem;
             font-weight: 700;
-            color: #e17055;
+            color: #79BD9A;
             margin-bottom: 15px;
             line-height: 1.4;
             display: -webkit-box;
@@ -239,7 +241,7 @@
         .member-name-tag {
             display: inline-block;
             background: linear-gradient(135deg, #74b9ff, #0984e3);
-            color: white;
+            color: #EFEFEF;
             padding: 6px 12px;
             border-radius: 15px;
             font-size: 0.85rem;
@@ -247,8 +249,8 @@
         }
 
         .skill-tag {
-            background: linear-gradient(135deg, #ff7675, #fd79a8);
-            color: white;
+            background: linear-gradient(135deg, #A8DBA8, #79BD9A);
+            color: #EFEFEF;
             padding: 6px 12px;
             border-radius: 15px;
             font-size: 0.85rem;
@@ -285,7 +287,7 @@
         }
 
         .popup-content {
-            background: white;
+            background: #EFEFEF;
             border-radius: 20px;
             padding: 40px;
             max-width: 600px;
@@ -314,13 +316,13 @@
         }
 
         .popup-close:hover {
-            color: #e17055;
+            color: #79BD9A;
         }
 
         .popup-title {
             font-size: 1.6rem;
             font-weight: 700;
-            color: #e17055;
+            color: #79BD9A;
             margin-bottom: 25px;
             padding-right: 40px;
             line-height: 1.4;
@@ -331,7 +333,7 @@
         }
 
         .popup-info strong {
-            color: #e17055;
+            color: #79BD9A;
             display: block;
             margin-bottom: 8px;
             font-size: 1.1rem;
@@ -353,8 +355,8 @@
         }
 
         .popup-genre-tag {
-            background: linear-gradient(135deg, #ff7675, #fd79a8);
-            color: white;
+            background: linear-gradient(135deg, #A8DBA8, #79BD9A);
+            color: #EFEFEF;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.9rem;
@@ -363,7 +365,7 @@
 
         .popup-member-tag {
             background: linear-gradient(135deg, #74b9ff, #0984e3);
-            color: white;
+            color: #EFEFEF;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.9rem;
@@ -378,8 +380,8 @@
         }
 
         .skill-tag {
-            background: linear-gradient(135deg, #ff7675, #fd79a8);
-            color: white;
+            background: linear-gradient(135deg, #A8DBA8, #79BD9A);
+            color: #EFEFEF;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 0.9rem;
@@ -389,7 +391,7 @@
         /* つながりセクション */
         .contact-section {
             padding: 60px 30px;
-            background: #fff;
+            background: #EFEFEF;
             text-align: center;
         }
 
@@ -413,15 +415,15 @@
         }
 
         .contact-highlight h3 {
-            color: #e17055;
+            color: #79BD9A;
             font-size: 1.5rem;
             margin-bottom: 15px;
         }
 
         .contact-button {
             display: inline-block;
-            background: linear-gradient(135deg, #ff7675, #fd79a8);
-            color: white;
+            background: linear-gradient(135deg, #A8DBA8, #79BD9A);
+            color: #EFEFEF;
             padding: 15px 40px;
             border-radius: 50px;
             text-decoration: none;
@@ -438,8 +440,8 @@
 
         /* フッター */
         .footer {
-            background: linear-gradient(135deg, #2d3436, #636e72);
-            color: white;
+            background: #757575;
+            color: #EFEFEF;
             padding: 40px 30px;
             text-align: center;
         }
@@ -452,7 +454,7 @@
         .footer h4 {
             font-size: 1.3rem;
             margin-bottom: 15px;
-            color: #fab1a0;
+            color: #A8DBA8;
         }
 
         .footer p {
@@ -469,7 +471,7 @@
 
         .spinner {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #ff7675;
+            border-top: 4px solid #A8DBA8;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -491,7 +493,7 @@
         .no-data h3 {
             font-size: 1.5rem;
             margin-bottom: 10px;
-            color: #e17055;
+            color: #79BD9A;
         }
 
         /* レスポンシブ */
@@ -523,33 +525,35 @@
     <div class="container">
         <!-- ヘッダーセクション -->
         <section class="hero">
-            <h1>〇〇コミュニティ</h1>
-            <p class="subtitle">人と人をつなぐ場所</p>
-            <p class="description">全国の仲間と一緒に、もっと楽しい毎日を。<br>大人になってからの本当の友達づくりを大切にしています。</p>
+            <h1>のんびり村（仮）</h1>
+            <p class="subtitle">大人のまったり交流コミュニティ</p>
+            <p class="description">大人になっても仲間が欲しい人たちへ。<br>20代〜50代の全国の仲間と、のんびりとした時間を共有しています。</p>
         </section>
 
         <!-- コミュニティ紹介セクション -->
         <section class="community-intro">
-            <h2 class="section-title">私たちのコミュニティ</h2>
-            
+            <h2 class="section-title">のんびり村（仮）紹介</h2>
             <div class="intro-content">
                 <div class="intro-text">
-                    <h3>🌟 こんなコミュニティです</h3>
-                    <p>20代〜50代の全国の仲間が集まる、温かいコミュニティです。リアルでもオンラインでも、お互いを支え合い、一緒に楽しい時間を過ごしています。</p>
-                    <p>「お互い様の精神」を大切に、困ったときは助け合い、嬉しいときは一緒に喜び合える関係性を築いています。</p>
+                    <h3>のんびり村（仮）はこんな所です</h3>
+                    <p>20代〜50代の全国の個性的な人たちがゆるく集まっているDiscordサーバーです。</p>
+                    <p>自分のペースで交流を楽しめる、まったりペースなコミュニティです。</p>
                 </div>
                 <div class="intro-text">
-                    <h3>💝 大切にしていること</h3>
-                    <p>営利目的ではなく、純粋に「人と人のつながり」を大切にしています。多様な人生経験を持つメンバー同士が、自然体で交流できる環境づくりを心がけています。</p>
+                    <h3>大切にしていること</h3>
+                    <p>「ゆるくのんびり」の価値観を共有しながら、お互いのペースを尊重し合っています。</p>
+                    <p>忙しいときは無理をせず、余裕があるときに顔を出す。そんな自然体の関係性を大切にしています。</p>
+                    <p>誰かが困っているときは、できる範囲で手を差し伸べる。そんな「おたがいさま」の心で、みんなで支え合っています。</p>
                 </div>
-                <a href="https://discord.gg/PJxy6fYKrs" target="_blank" rel="noopener noreferrer" class="contact-button">お気軽にご相談ください</a>
+                <a href="https://discord.gg/PJxy6fYKrs" target="_blank" rel="noopener noreferrer" class="contact-button">Discordはこちら</a>
             </div>
 
+            <h2 class="section-title">活動紹介</h2>
             <div class="activities-grid">
                 <div class="activity-card">
                     <div class="activity-icon">☕</div>
-                    <h4>おうちカフェ</h4>
-                    <p>管理人宅でのんびりとした時間を過ごします。美味しいコーヒーと楽しい会話で、リラックスした交流を楽しんでいます。</p>
+                    <h4>儲からない喫茶店</h4>
+                    <p>コーヒードリップが得意な人と自家製パンを焼いている人の主催で、「お金にはならないけど居心地の良い喫茶店」を開催しました。</p>
                 </div>
                 <div class="activity-card">
                     <div class="activity-icon">🍽️</div>
@@ -559,22 +563,22 @@
                 <div class="activity-card">
                     <div class="activity-icon">🎮</div>
                     <h4>オンライン活動</h4>
-                    <p>マイクラ部やスプラトゥーン部など、ゲームを通じた交流も活発です。遠方のメンバーとも気軽に交流できます。</p>
+                    <p>マイクラやスプラトゥーンなど、オンラインゲームを通じた交流も活発です。遠方のメンバーとも気軽に交流できます。</p>
                 </div>
                 <div class="activity-card">
                     <div class="activity-icon">🥖</div>
-                    <h4>パン作り・ドリップ練習</h4>
-                    <p>手作りの楽しさを共有する活動も人気です。みんなで作ったパンと淹れたてのコーヒーは格別です。</p>
+                    <h4>オフ会</h4>
+                    <p>全国のみんなで日程と場所を決めて、オフ会を開催しています。</p>
                 </div>
             </div>
         </section>
 
         <!-- メンバー紹介セクション -->
         <section class="members-section">
-            <h2 class="section-title">みんなで支え合っています</h2>
-            <p style="text-align: center; color: white; font-size: 1.1rem; margin-bottom: 30px;">
-                「何か困ったことがあったら、気軽に声をかけてください」<br>
-                私たちのコミュニティでは、こんなことでもお手伝いできます
+            <h2 class="section-title">お仕事募集中！</h2>
+            <p style="text-align: center; color: #EFEFEF; font-size: 1.1rem; margin-bottom: 30px;">
+                何か困ったことがあったら、お気軽に声をかけてください！<br>
+                のんびり村（仮）には様々な得意分野を持ったメンバーがいるので、お手伝いできることがきっとあります。<br>
             </p>
             
             <div class="search-container">
@@ -582,21 +586,19 @@
                     type="text" 
                     id="search-input" 
                     class="search-input" 
-                    placeholder="お手伝いできることやジャンルで検索..."
+                    placeholder="仕事内容やジャンルで検索..."
                 >
-                <button class="search-btn" onclick="loadSpreadsheetData()">メンバー情報を読み込む</button>
+                <button class="search-btn" onclick="loadSpreadsheetData()">情報を読み込む</button>
             </div>
 
             <div id="loading" class="loading" style="display: none;">
                 <div class="spinner"></div>
-                <p>メンバー情報を読み込み中...</p>
+                <p>情報を読み込み中...</p>
             </div>
 
             <div id="members-container">
                 <div class="no-data">
-                    <h3>コミュニティでできること</h3>
-                    <p>「メンバー情報を読み込む」ボタンを押して、私たちがお手伝いできることをご紹介いたします。</p>
-                    <p style="margin-top: 20px; color: #e17055;">それぞれが得意なことを活かして、お互いを支え合っています。</p>
+                    <p>「情報を読み込む」ボタンを押すと、メンバーの受けたい仕事を見ることができます。</p>
                 </div>
             </div>
             
@@ -617,36 +619,34 @@
 
         <!-- つながりセクション -->
         <section class="contact-section">
-            <h2 class="section-title">つながりませんか？</h2>
+            <h2 class="section-title">お気軽にご参加ください！</h2>
 
             <div class="contact-content">
                 <p class="contact-text">
-                    私たちは、営利目的ではなく「人と人のつながり」を大切にしています。<br>
-                    何か困ったことがあったら、お気軽にお声がけください。<br>
-                    お互い様の精神で、できる範囲でお手伝いさせていただきます。
+                    のんびり村（仮）では、みんなで楽しい時間を共有していきたいと考えています。<br>
+                    何か困ったことがあったらお気軽にお声がけください。<br>
                 </p>
 
                 <div class="contact-highlight">
-                    <h3>🤝 お互い様の精神</h3>
-                    <p>一方的ではなく、お互いが支え合える関係性を大切にしています。あなたの得意なことも、きっと誰かの助けになります。</p>
+                    <h3>「おたがいさま」の精神</h3>
+                    <p>一方的ではなく、お互いが支え合える関係性を大切にしています。<br>
+                        あなたの得意なことも、きっと誰かの助けになります。</p>
                 </div>
 
                 <p class="contact-text">
                     興味を持っていただけましたら、ぜひお気軽にご連絡ください。<br>
-                    まずはお話しすることから始めませんか？
+                    まずはお話ししてみることから始めませんか？
                 </p>
 
-                <a href="https://discord.gg/PJxy6fYKrs" target="_blank" rel="noopener noreferrer" class="contact-button">お気軽にご相談ください</a>
+                <a href="https://discord.gg/PJxy6fYKrs" target="_blank" rel="noopener noreferrer" class="contact-button">のんびり村（仮）Discordはこちら</a>
             </div>
         </section>
 
         <!-- フッター -->
         <footer class="footer">
             <div class="footer-content">
-                <h4>〇〇コミュニティ</h4>
-                <p>人と人をつなぐ場所</p>
-                <p>全国の仲間と一緒に、もっと楽しい毎日を</p>
-                <p style="margin-top: 20px; opacity: 0.7;">お互い様の精神で、みんなで支え合う温かいコミュニティです</p>
+                <h4>のんびり村（仮）</h4>
+                <p>大人のまったり交流コミュニティ</p>
             </div>
         </footer>
     </div>
@@ -776,7 +776,7 @@
                     <div class="no-data">
                         <h3>データの読み込みに失敗しました</h3>
                         <p>スプレッドシートの設定をご確認ください。</p>
-                        <p style="margin-top: 15px; color: #e17055;">
+                        <p style="margin-top: 15px; color: #79BD9A;">
                             スプレッドシートが「リンクを知っている全員」に共有設定されている必要があります。
                         </p>
                     </div>
